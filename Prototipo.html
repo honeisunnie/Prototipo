@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Pago - Banco Seguro</title>
+    <style>
+        :root {
+            --primary-color: #E2001A; /* Rojo Falabella */
+            --secondary-color: #C50016;
+            --bank-blue: #1565C0;
+            --bank-dark-blue: #0D47A1;
+            --dark-color: #333333;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --border-radius: 4px;
+            --danger-color: #D32F2F;
+            --success-color: #388E3C;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--dark-color);
+            line-height: 1.5;
+            background-color: #fafafa;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Estilo del Correo Electrónico */
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .email-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        .email-content {
+            padding: 25px;
+        }
+        
+        .email-title {
+            color: var(--primary-color);
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .alert-box {
+            background-color: #FFF3F3;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .order-details {
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            margin: 25px 0;
+            padding: 15px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .detail-label {
+            color: #666666;
+        }
+        
+        .detail-value {
+            font-weight: bold;
+        }
+        
+        .verification-box {
+            background-color: var(--light-gray);
+            border: 1px dashed var(--primary-color);
+            padding: 25px;
+            text-align: center;
+            margin: 25px 0;
+            border-radius: var(--border-radius);
+        }
+        
+        .verification-code {
+            font-size: 36px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: var(--primary-color);
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        
+        .steps {
+            margin: 25px 0;
+        }
+        
+        .step {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+        
+        .email-cta-button {
+            display: block;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: bold;
+            margin: 30px 0;
+            transition: background 0.3s;
+        }
+        
+        .email-cta-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .security-note {
+            background-color: var(--light-gray);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            margin: 25px 0;
+        }
+        
+        .email-footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666666;
+            border-top: 1px solid var(--medium-gray);
+        }
+        
+        .fraud-warning {
+            background-color: #FFEBEE;
+            border-left: 4px solid var(--danger-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        /* Estilo del Banco */
+        .bank-container {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .bank-header {
+            background-color: var(--bank-blue);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .bank-logo {
+            height: 30px;
+        }
+        
+        .bank-content {
+            padding: 25px;
+        }
+        
+        .bank-title {
+            color: var(--bank-blue);
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .bank-title i {
+            margin-right: 10px;
+        }
+        
+        .verification-message {
+            background-color: #E3F2FD;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+        
+        .code-input-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .code-input {
+            width: 55px;
+            height: 65px;
+            text-align: center;
+            font-size: 24px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            transition: all 0.3s;
+        }
+        
+        .code-input:focus {
+            border-color: var(--bank-blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.2);
+        }
+        
+        .bank-cta-button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--bank-blue);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .bank-cta-button:hover {
+            background-color: var(--bank-dark-blue);
+        }
+        
+        .bank-security-alert {
+            background-color: #FFF8E1;
+            border-left: 4px solid #FFA000;
+            padding: 15px;
+            margin: 25px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .resend-option {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .resend-option a {
+            color: var(--bank-blue);
+            text-decoration: none;
+        }
+        
+        /* Estilo de los mensajes emergentes */
+        .floating-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .floating-message.show {
+            opacity: 1;
+        }
+        
+        .floating-message.success {
+            background-color: var(--success-color);
+        }
+        
+        .floating-message.error {
+            background-color: var(--danger-color);
+        }
+        
+        .floating-message i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .code-input {
+                width: 45px;
+                height: 55px;
+                font-size: 20px;
+            }
+            
+            .floating-message {
+                width: 90%;
+                text-align: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Mensajes flotantes (inicialmente ocultos) -->
+    <div id="floatingSuccess" class="floating-message success">
+        <i class="fas fa-check-circle"></i>
+        <span>✅ Pago verificado correctamente. Tu transacción ha sido completada.</span>
+    </div>
+    
+    <div id="floatingError" class="floating-message error">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>⚠️ Código incorrecto. Por favor verifica el código e intenta nuevamente.</span>
+    </div>
+    
+    <div id="floatingWarning" class="floating-message error">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>Por favor ingresa el código completo de 5 dígitos</span>
+    </div>
+
+    <div class="container">
+        <!-- Correo Electrónico -->
+        <div class="email-container">
+            <div class="email-header">
+                <img src="https://www.falabella.com/fala-cdn/static-files/images/logo-falabella.png" alt="Falabella" class="logo">
+            </div>
+            
+            <div class="email-content">
+                <h2 class="email-title">¡Completa tu pago con el código de verificación!</h2>
+                
+                <div class="alert-box">
+                    <strong>Importante:</strong> Hemos detectado un inconveniente con tu último intento de pago. Por favor ingresa el código de 5 dígitos para finalizar tu compra.
+                </div>
+                
+                <p>Hola [Nombre del Cliente],</p>
+                
+                <p>Tu orden #987654 está casi lista, pero necesitamos que verifiques tu identidad para completar el pago.</p>
+                
+                <div class="order-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Número de orden:</span>
+                        <span class="detail-value">#987654</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Fecha:</span>
+                        <span class="detail-value">15/06/2023</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Monto total:</span>
+                        <span class="detail-value">$1,250.00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Método de pago:</span>
+                        <span class="detail-value">Tarjeta de crédito ****4567</span>
+                    </div>
+                </div>
+                
+                <div class="verification-box">
+                    <p>Tu código de verificación de 5 dígitos es:</p>
+                    <div class="verification-code">8 4 3 2 7</div>
+                    <p>Válido por los próximos <strong>10 minutos</strong></p>
+                </div>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>Ingresa a la plataforma de tu banco</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>Busca la transacción pendiente por $1,250.00</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>Ingresa este código de 5 dígitos cuando te lo soliciten</div>
+                    </div>
+                </div>
+                
+                <div class="fraud-warning">
+                    <strong><i class="fas fa-exclamation-triangle"></i> ¿No reconoces esta operación?</strong>
+                    <p style="margin-top: 8px;">Si no has solicitado este pago o código de verificación:</p>
+                    <ol style="margin-left: 20px; margin-top: 8px;">
+                        <li>No ingreses el código en ningún sitio</li>
+                        <li>Cambia inmediatamente tu contraseña</li>
+                        <li>Contacta a nuestro servicio de atención al cliente</li>
+                    </ol>
+                </div>
+                
+                <div class="security-note">
+                    <strong>Seguridad:</strong> Este código es personal e intransferible. Falabella nunca te pedirá que lo compartas por teléfono o mensaje. Si recibiste este correo sin haber iniciado una compra, por favor ignóralo y repórtalo.
+                </div>
+            </div>
+            
+            <div class="email-footer">
+                <p>© 2023 Falabella. Todos los derechos reservados.</p>
+                <p>Este es un correo automático, por favor no respondas a este mensaje.</p>
+            </div>
+        </div>
+        
+        <!-- Página del Banco -->
+        <div class="bank-container">
+            <div class="bank-header">
+                <img src="https://via.placeholder.com/120x30?text=BancoSeguro" alt="BancoSeguro" class="bank-logo">
+                <div style="font-size: 14px;">Verificación de Pago</div>
+            </div>
+            
+            <div class="bank-content">
+                <h2 class="bank-title">
+                    <i class="fas fa-lock"></i> Verifica tu pago
+                </h2>
+                
+                <div class="verification-message">
+                    <p>Estás completando un pago a <strong>Falabella</strong> por <span style="color: var(--danger-color);">$1,250.00</span>. Para confirmar que eres tú, ingresa el código de 5 dígitos que recibiste.</p>
+                </div>
+                
+                <form id="bankVerificationForm">
+                    <label style="display: block; margin-bottom: 10px; font-weight: bold;">Código de verificación:</label>
+                    <div class="code-input-container">
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" required>
+                    </div>
+                    
+                    <button type="submit" class="bank-cta-button">Confirmar Pago</button>
+                </form>
+                
+                <div class="resend-option">
+                    ¿No recibiste el código? <a href="#">Reenviar código</a> (01:45)
+                </div>
+                
+                <div class="bank-security-alert">
+                    <strong><i class="fas fa-shield-alt"></i> Protección contra fraudes:</strong> Solo ingresa códigos que hayas recibido cuando tenías una operación pendiente. BancoSeguro nunca te pedirá este código por teléfono.
+                </div>
+                
+                <div style="font-size: 14px; color: #666; margin-top: 30px;">
+                    <p><strong>Operación:</strong> Pago a Falabella #987654</p>
+                    <p><strong>Dispositivo:</strong> iPhone en Lima, PE</p>
+                    <p><strong>Hora:</strong> 15/06/2023 14:30</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Manejo de los inputs del código en el banco
+            const bankInputs = document.querySelectorAll('#bankVerificationForm .code-input');
+            
+            bankInputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    // Ocultar mensajes al empezar a escribir
+                    hideAllMessages();
+                    
+                    if (this.value.length === 1) {
+                        if (index < bankInputs.length - 1) {
+                            bankInputs[index + 1].focus();
+                        }
+                    }
+                });
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value.length === 0) {
+                        if (index > 0) {
+                            bankInputs[index - 1].focus();
+                        }
+                    }
+                });
+            });
+            
+            // Validación del formulario del banco
+            document.getElementById('bankVerificationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                let code = '';
+                bankInputs.forEach(input => {
+                    code += input.value;
+                });
+                
+                // Ocultar todos los mensajes primero
+                hideAllMessages();
+                
+                if (code.length === 5) {
+                    if (code === '84327') {
+                        showMessage('success');
+                        
+                        // Deshabilitar el formulario después de éxito
+                        document.querySelector('#bankVerificationForm button').disabled = true;
+                        bankInputs.forEach(input => input.disabled = true);
+                        
+                        // Redirigir después de 3 segundos (simulación)
+                        setTimeout(() => {
+                            // window.location.href = "pagina-de-exito.html";
+                            console.log("Redirigiendo a página de confirmación...");
+                        }, 3000);
+                    } else {
+                        showMessage('error');
+                    }
+                } else {
+                    showMessage('warning');
+                }
+            });
+            
+            // Funciones para controlar los mensajes
+            function showMessage(type) {
+                const message = document.getElementById(`floating${type.charAt(0).toUpperCase() + type.slice(1)}`);
+                message.classList.add('show');
+                
+                // Ocultar después de 5 segundos
+                setTimeout(() => {
+                    message.classList.remove('show');
+                }, 5000);
+            }
+            
+            function hideAllMessages() {
+                document.querySelectorAll('.floating-message').forEach(msg => {
+                    msg.classList.remove('show');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
